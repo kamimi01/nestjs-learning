@@ -44,6 +44,45 @@
   - `class-validator`
   - `class-transformer`
 
+## データベースとの接続
+
+- DockerでPostgreSQLを起動する
+  - `docker run --name postgres-nest -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres`
+- 停止する
+  - `docker container stop postgres-nest`
+- pgAdmin
+  - PostgresSQLでデータベースの操作をGUIで行えるツール
+
+### オブジェクトリレーショナルマッピング（ORM）
+
+- メリット
+  - データモデルを1箇所にまとめることができるので、保守が簡単
+  - 多くのことを自動で行ってくれる
+    - データベースハンドリング
+    - データ型
+    - リレーション
+  - SQLを書く必要がない
+  - データベースの抽象化
+    - 好きなタイミングでデータベースの種類を変更することができる
+  - オブジェクト指向プログラミぐを活用できる
+- デメリット
+  - ORMライブラリはシンプルではない
+  - パフォーマンスは良いが、無視することも簡単にできてしまう
+  - 実際何が起きているかを忘れがちで、保守の際に問題が発生すると難しい場合がある
+
+- TypeORM
+  - Node.jsで動いている
+  - エンティティを認識するにはファイル名に、`entity`をつける必要がある
+  - Active RecordとData Mapper両方をサポートする
+  - Udemyのコースでは、リポジトリ層を意識して、疎結合にすることによりテスト容易性を高めたいので、データマッパーの形を採用する
+
+- 関連モジュールのインストール
+  - typeorm
+    - TypeORM
+  - @nestjs/typeorm
+    - nestjsのTypeORMのラッパー
+  - pg
+    - PostgresSQLの公式モジュール
 ## 参考
 
 - [NestJS Zero to Hero - Modern TypeScript Back-end Development]()# nestjs-learning
