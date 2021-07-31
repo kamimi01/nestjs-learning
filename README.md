@@ -13,6 +13,36 @@
   - `nest new <プロジェクト名>`
   - 作成されたプロジェクトの構成
 
+## デバッグ
+
+- `.vscode`以下に以下のファイルを作成する
+
+```json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch",
+      "port": 9229,
+      "runtimeExecutable": "yarn",
+      "cwd": "${workspaceFolder}",
+      "runtimeArgs": ["start:debug"],
+      "console": "integratedTerminal"
+    }
+  ]
+}
+```
+
+## Pipes
+
+- 以下の用途がある
+  - データの変換
+  - バリデーション
+- インストール必要なモジュール
+  - `class-validator`
+  - `class-transformer`
 
 ## 参考
 

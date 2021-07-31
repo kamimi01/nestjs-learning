@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
+import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
 import { Task, TaskStatus } from './task.model';
 import { TasksService } from './tasks.service';
 
@@ -20,13 +21,8 @@ export class TasksController {
   // TypeScriptではコンストラクタ内でプロパティを定義できる（https://qiita.com/saba_can00/items/4e670235cf63763e63bd#parameter-properties%E3%81%A7%E3%83%97%E3%83%AD%E3%83%91%E3%83%86%E3%82%A3%E5%AE%A3%E8%A8%80%E3%82%92%E3%82%B7%E3%83%B3%E3%83%97%E3%83%AB%E3%81%AB%E3%81%99%E3%82%8B）
   constructor(private tasksService: TasksService) {}
 
-  @Get()
-  getAllTasks(): Task[] {
-    return this.tasksService.getAllTasks();
-  }
-
   // http://localhost:3000/tasks/{:id}
-  @Get('/:id')
+  @Get()
   getTask(@Query() filterDto: GetTasksFilterDto): Task[] {
     // 何かフィルターしたい場合は、getTasksWithFiltersを呼ぶ
     // そうではない場合は、全てのタスクを取得する
@@ -36,6 +32,11 @@ export class TasksController {
     } else {
       return this.tasksService.getAllTasks();
     }
+  }
+
+  @Get('/:id')
+  getTaskById(@Param('id') id: string): Task {
+    return this.tasksService.getTaskById(id);
   }
 
   @Post()
@@ -51,8 +52,9 @@ export class TasksController {
   @Patch('/:id/status')
   updateTaskStatus(
     @Param('id') id: string,
-    @Body('status') status: TaskStatus,
+    @Body() updateTaskStatusDto: UpdateTaskStatusDto,
   ): Task {
+    const { status } = updateTaskStatusDto;
     return this.tasksService.updateTaskStatus(id, status);
   }
 }
